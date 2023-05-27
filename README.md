@@ -1,6 +1,4 @@
-# prisjakt_helper
-
-# showcase
+# Prisjakt Helper
 
 ## Comparison 
 ### without prisjakt helper:
