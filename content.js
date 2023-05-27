@@ -11,12 +11,25 @@ const getStoreAndProductName = (unfeaturedRow) => {
   let product_name = "";
   let store_name = "";
 
-  const storeLogoTextSpan = unfeaturedRow.querySelector(
-    "span.StoreLogoText-sc-0-1"
-  );
-
-  if (storeLogoTextSpan) {
-    store_name = storeLogoTextSpan.innerHTML;
+  // find the StoreLogoText and StyledProductName elements
+  const allSpans = unfeaturedRow.getElementsByTagName("span");
+  for (let span of allSpans) {
+    const spanClasses = Array.from(span.classList);
+    if (
+      !store_name &&
+      spanClasses.some((className) => className.startsWith("StoreLogoText"))
+    ) {
+      store_name = span.innerHTML;
+    }
+    if (
+      !product_name &&
+      spanClasses.some((className) => className.startsWith("StyledProductName"))
+    ) {
+      product_name = span.innerHTML;
+    }
+    if (store_name && product_name) {
+      break;
+    }
   }
 
   return { store_name, product_name };
@@ -39,17 +52,16 @@ const attachEventListener = (
   redirect_url
 ) => {
   unfeaturedRow.addEventListener("click", function (e) {
-    const product_name_span = unfeaturedRow.querySelector(
-      "span.StyledProductName-sc-0-2"
-    );
-    if (product_name_span) {
-      product_name += product_name_span.innerHTML;
+    let clipboard_text = product_name;
+    if (redirect_url === "google.se") {
+      clipboard_text = store_name + " " + product_name;
     }
-    addToClipboard(product_name);
+    addToClipboard(clipboard_text);
     e.stopPropagation();
     e.preventDefault();
     window.open(`https://www.${redirect_url}/`);
   });
+
   unfeaturedRow.classList.add("clickListenerAdded");
 };
 
@@ -109,6 +121,7 @@ window.addEventListener("load", () => {
                   ) {
                     const { store_name, product_name } =
                       getStoreAndProductName(unfeaturedRow);
+                    console.log(store_name);
                     const redirect_url = getRedirectUrl(
                       store_name,
                       wholeWordRegex,
