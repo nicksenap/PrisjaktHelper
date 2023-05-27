@@ -34,5 +34,5 @@ In our mission to make online shopping as seamless as possible, we're working on
 
 ### Without Prisjakt Helper Chrome Extension:
 ![Before](before.png?raw=true "Before")
-### With Prisjakt Helper Chrome Extension:
+### With Prisjakt Helper Chrome Extension (the pale violet red colored links are the generated semi-direct link):
 ![After](after.png?raw=true "After")
