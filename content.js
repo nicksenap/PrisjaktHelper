@@ -57,10 +57,15 @@ const removeTooltipAndStyleButton = (unfeaturedRow) => {
   // remove tooltip
   let tooltip_parent = unfeaturedRow.parentNode;
   let tooltip = tooltip_parent.querySelector(".TooltipWrapper--8hyrx8");
-  tooltip_parent.removeChild(tooltip);
+
+  if (tooltip) {
+    tooltip_parent.removeChild(tooltip);
+  }
+
   let GoToStoreButton = unfeaturedRow.querySelector(
     'div[data-test="GoToStoreButton"]'
   );
+
   GoToStoreButton.style.visibility = "visible";
   let actual_btn = GoToStoreButton.firstChild;
   actual_btn.style.backgroundColor = "palevioletred";
@@ -83,9 +88,11 @@ window.addEventListener("load", () => {
           const spans = document.querySelectorAll("span");
 
           for (const span of spans) {
-            if (span.textContent === "Visa alla" && !clickedSpans.has(span)) {
-              span.click();
-              clickedSpans.add(span);
+            if (!clickedSpans.has(span)) {
+              if (span.textContent === "Visa alla") {
+                span.click();
+                clickedSpans.add(span);
+              }
 
               setTimeout(() => {
                 const cards = document.querySelectorAll(
