@@ -28,7 +28,7 @@ In our mission to make online shopping as seamless as possible, we're working on
 
 - [ ]  *Manifest V3*: Prisjakt Helper will be updated to align with Google's Manifest V3 specifications for Chrome extensions.
 
-- [ ]  *Customized Navigation & Styling*: Future versions will allow you to customize the navigation behavior and pick a custom color for your semi-direct links, ensuring a personalized shopping experience.
+- [x]  *Customized Navigation & Styling*: Future versions will allow you to customize the navigation behavior and pick a custom color for your semi-direct links, ensuring a personalized shopping experience.
 
 ## Showcase 
 
