@@ -7,8 +7,45 @@
         body {
             width: 300px;
             height: 200px;
-            padding: 10px;
+            padding: 20px;
             font-family: Arial, sans-serif;
+            background-color: #F5F5F5;
+        }
+
+        h1 {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #4F4F4F;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #confirmation {
+            margin-top: 20px;
+            color: green;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -22,15 +59,13 @@
             <option value="google">Redirect to Google</option>
         </select>
     </label>
-    <br>
     <label>
         Button color:
         <input type="color" id="color" value="#db7093">
     </label>
-    <br>
     <button id="save">Save</button>
-
-    <script src="popup.js"></script>
+    <p id="confirmation"></p>
 </body>
+<script src="popup.js"></script>
 
 </html>

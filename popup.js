@@ -11,13 +11,24 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.getElementById("save").addEventListener("click", function () {
-  console.log("clicked on save");
   const behavior = document.getElementById("behavior").value;
   const color = document.getElementById("color").value;
 
-  console.log("Saving settings", { behavior, color });
-
   chrome.storage.sync.set({ behavior: behavior, color: color }, function () {
-    console.log("Settings saved");
+    if (chrome.runtime.lastError) {
+      // Log any errors to the console
+      console.log(chrome.runtime.lastError.message);
+    } else {
+      // Get the paragraph element and update its text
+      const confirmation = document.getElementById("confirmation");
+      confirmation.textContent =
+        "Settings saved! Please reload the page for changes to take effect.";
+
+      // Clear the confirmation message after 3 seconds
+      setTimeout(() => {
+        confirmation.textContent = "";
+        window.close(); // Close the popup
+      }, 3000);
+    }
   });
 });
