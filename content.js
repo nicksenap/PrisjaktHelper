@@ -1,3 +1,21 @@
+const wholeWordRegex = /^[\w\u00C0-\u00FF]+$/;
+const urlRegex = /^([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-]+$/;
+
+let options = {
+  behavior: "store", // default behavior
+  color: "palevioletred", // default color
+};
+
+chrome.runtime.sendMessage({ method: "getOptions" }, function (response) {
+  options = response.options;
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.options) {
+    options = { ...options, ...request.options };
+  }
+});
+
 const addToClipboard = (text) => {
   const dummyElement = document.createElement("textarea");
   dummyElement.value = text;
@@ -53,8 +71,9 @@ const attachEventListener = (
 ) => {
   unfeaturedRow.addEventListener("click", function (e) {
     let clipboard_text = product_name;
-    if (redirect_url === "google.se") {
+    if (options.behavior === "google" || redirect_url === "google.se") {
       clipboard_text = store_name + " " + product_name;
+      redirect_url = "google.se"
     }
     addToClipboard(clipboard_text);
     e.stopPropagation();
@@ -80,7 +99,7 @@ const removeTooltipAndStyleButton = (unfeaturedRow) => {
 
   GoToStoreButton.style.visibility = "visible";
   let actual_btn = GoToStoreButton.firstChild;
-  actual_btn.style.backgroundColor = "palevioletred";
+  actual_btn.style.backgroundColor = options.color; // use current value of options.color
   actual_btn.style.color = "white";
 };
 
@@ -91,8 +110,6 @@ window.addEventListener("load", () => {
     )
   ) {
     const clickedSpans = new Set();
-    const wholeWordRegex = /^[\w\u00C0-\u00FF]+$/;
-    const urlRegex = /^([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-]+$/;
 
     const observer = new MutationObserver((mutationsList) => {
       for (const mutation of mutationsList) {
@@ -144,5 +161,43 @@ window.addEventListener("load", () => {
     });
 
     observer.observe(document, { childList: true, subtree: true });
+  }
+});
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === "updateOptions") {
+    // Update the options in the content script.
+    if (request.options.color) {
+      options.color = request.options.color;
+    }
+    if (request.options.behavior) {
+      options.behavior = request.options.behavior;
+    }
+    console.log(options);
+
+    // Then, reapply your styles or re-run your code that uses these options.
+    const cards = document.querySelectorAll('div[data-test="PriceRow"]');
+    for (const card of cards) {
+      const unfeaturedRow = card.querySelector('a[data-test="UnfeaturedRow"]');
+      if (
+        unfeaturedRow &&
+        !unfeaturedRow.classList.contains("clickListenerAdded")
+      ) {
+        const { store_name, product_name } =
+          getStoreAndProductName(unfeaturedRow);
+        const redirect_url = getRedirectUrl(
+          store_name,
+          wholeWordRegex,
+          urlRegex
+        );
+        attachEventListener(
+          unfeaturedRow,
+          store_name,
+          product_name,
+          redirect_url
+        );
+        removeTooltipAndStyleButton(unfeaturedRow);
+      }
+    }
   }
 });

@@ -1,9 +1,36 @@
 <!DOCTYPE html>
 <html>
-    <body>
-        <h1>Prisjakt Helper</h1>
-        <button id="copyButton">Copy Store Info</button>
 
-        <script src="popup.js"></script>
-    </body>
+<head>
+    <title>Prisjakt Helper Options</title>
+    <style>
+        body {
+            width: 300px;
+            height: 200px;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Prisjakt Helper Options</h1>
+    <label>
+        Redirect behavior:
+        <select id="behavior">
+            <option value="store">Redirect to store (default)</option>
+            <option value="google">Redirect to Google</option>
+        </select>
+    </label>
+    <br>
+    <label>
+        Button color:
+        <input type="color" id="color" value="#db7093">
+    </label>
+    <br>
+    <button id="save">Save</button>
+
+    <script src="popup.js"></script>
+</body>
+
 </html>
