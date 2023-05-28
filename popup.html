@@ -87,6 +87,35 @@
                 font-size: 14px;
             }
         }
+
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 160px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -80px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 </head>
@@ -96,8 +125,16 @@
     <label>
         <span>Redirect behavior:</span>
         <select id="behavior">
-            <option value="store">Redirect to store (default)</option>
-            <option value="google">Redirect to Google</option>
+            <option value="store" class="tooltip">
+                Redirect to store (default)
+                <span class="tooltiptext">Redirects the user to the store website and copies the product name to the
+                    clipboard.</span>
+            </option>
+            <option value="google" class="tooltip">
+                Redirect to Google
+                <span class="tooltiptext">Redirects the user to Google and copies the product name and store name to the
+                    clipboard.</span>
+            </option>
         </select>
     </label>
     <label>
